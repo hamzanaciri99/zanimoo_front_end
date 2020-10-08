@@ -1,0 +1,2 @@
+export const RECENTS_LOADING = 'RECENTS_LOADING';
+export const RECENTS_FAILED = 'RECENTS_FAILED';
