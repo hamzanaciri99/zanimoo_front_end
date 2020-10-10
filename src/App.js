@@ -1,14 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { combineReducers, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
 import './App.css';
 import Main from './components/MainComponent';
-import { recentEpisodes } from './redux/reducers/recents';
+import reducers from './redux/reducers';
 
-const store = createStore(combineReducers({
-  recentEpisodes: recentEpisodes,
-}));
+const store = createStore(reducers, applyMiddleware(thunk));
 
 function App() {
   return (
