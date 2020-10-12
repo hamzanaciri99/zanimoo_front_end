@@ -11,7 +11,7 @@ class Anime extends React.Component {
     this.props.fetchAnime(this.props.match.params.slug);
   }  
 
-  render(){
+  render() {
 
     if(this.props.anime.isLoading) {
       return (

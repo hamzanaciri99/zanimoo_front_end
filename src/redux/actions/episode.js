@@ -1,7 +1,6 @@
 import {EPISODE} from '../actions/ActionTypes';
 import axios from 'axios';
-
-const baseUrl = 'http://localhost:3001/animeultima';
+import {baseUrl} from './baseUrl';
 
 export const fetchEpisode = (slug) => (dispatch) => {
   dispatch(episodeLoading());
@@ -23,7 +22,6 @@ export const fetchEpisode = (slug) => (dispatch) => {
       }
     })
     .catch(err => {
-      console.log(`${baseUrl}/ep/${slug}`);
       console.log(err);
       dispatch(episodeFailed(err.message));
     });

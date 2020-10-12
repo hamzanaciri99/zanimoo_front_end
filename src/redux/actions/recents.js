@@ -1,7 +1,6 @@
 import {RECENTS} from '../actions/ActionTypes';
 import axios from 'axios';
-
-const baseUrl = 'http://localhost:3001/animeultima';
+import {baseUrl} from './baseUrl';
 
 export const fetchRecents = () => (dispatch) => {
   dispatch(recentsLoading());
@@ -17,7 +16,6 @@ export const fetchRecents = () => (dispatch) => {
       }
     })
     .catch(err => {
-      console.log(`${baseUrl}/recent`);
       console.log(err);
       dispatch(recentsFailed(err.message));
     });
