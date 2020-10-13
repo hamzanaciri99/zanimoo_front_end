@@ -1,0 +1,92 @@
+.icons {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+  color: white;
+  background-color: #881798;
+  border-radius: 60px;
+}
+
+.container-fluid {
+  padding: 4% 10%;
+}
+
+.big-title {
+  position: relative;
+  display: flex;
+  left: -50px;
+  align-items: center;
+  color: #881798;
+  border-bottom: 2px solid #881798;
+}
+
+
+.home .card {
+  border: none;
+  background-color: rgba(88, 17, 98, 0.02);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  transition: all 0.5s ease;
+}
+
+.home .card:hover {
+  transform: scale(1.05);
+}
+
+.home .card, .home .card-body, .home .card-title, .home .card-subtitle {
+  padding: 0px;
+  margin: 0px;
+}
+
+.card a, .card a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.home .card-body {
+  padding: 0px;
+}
+
+.home .card-title, .home .card-subtitle {
+  font-weight: lighter;
+  padding: 0px 5px;
+}
+
+.episode-card img {
+  max-height: 145px;
+}
+
+.anime-card {
+  position: relative;
+  display: block;
+  border-radius: 20px;
+}
+
+.anime-card .card-img-top {
+  height: 100%;
+}
+
+.anime-card .card-body {
+  position: absolute;
+  bottom: 0px;
+  background-color: rgba(0,0,0,0.5);
+  width: 100%;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.anime-card h6 {
+  font-weight: bolder;
+}
+
+.anime-card small {
+  font-weight: lighter;
+}
+
+.anime-card, .anime-card .card-img-top, .anime-card .card-body {
+  border-radius: 10px;
+}
+
+.anime-card .card-body {
+  border-radius: 0px 0px 10px 10px;
+}

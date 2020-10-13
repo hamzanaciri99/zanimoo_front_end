@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 import { fetchSearchResults, searchCleared } from '../redux/actions/search';
 import { Link } from 'react-router-dom';
+import Failed from './FailedComponent';
+import Loading from './LoadingComponent';
+import '../stylesheets/Search.css';
+import { ArrowLeftCircle, ArrowRightCircle } from 'react-feather';
 
 /**
  * @enum {string}
@@ -56,8 +60,11 @@ export class SearchBar extends Component {
 
   _onBlur(event) {
     if(event.target !== document.getElementById('previous') &&
-        event.target !== document.getElementById('next') && 
-          event.target !== document.getElementById('input')) {
+        event.target !== document.getElementById('next') &&
+        event.target !== document.getElementById('previousIcon') &&
+        event.target !== document.getElementById('nextIcon') && 
+        !event.target.classList.contains('retry') &&
+        event.target !== document.getElementById('input')) {
       if(this.state.dropdownDisplay !== DISPLAY.NONE)
         this.setState({
           dropdownDisplay: DISPLAY.NONE,
@@ -91,13 +98,17 @@ export class SearchBar extends Component {
 
   render() {
     return (
-      <div className="col-md-9 dropdown">
+      <div className="col dropdown">
         <ul className="list-group">
-          <input id="input" className="list-group-item dropdown-toggle form-control mr-sm-2"
-            type="search" placeholder="Search" aria-label="Search"
-            onChange={this._onChange}
-            value={this.state.query}
-            onMouseDown={this._onFocus} />
+          <div className="row icon-search">
+            <i data-feather="search"></i>
+            <input id="input" className="col list-group-item dropdown-toggle"
+              type="search" placeholder="Search for Anime, Movie, Ova... etc" aria-label="Search"
+              onChange={this._onChange}
+              value={this.state.query}
+              onMouseDown={this._onFocus} />
+          </div>
+          
           <div className="dropdown-menu w-100" style={{display: this.state.dropdownDisplay}} >
             <RenderResults
                 results={this.props.searchResults}
@@ -106,13 +117,14 @@ export class SearchBar extends Component {
                 fetchSearchResults={this.props.fetchSearchResults}
                 isLast={this.props.searchResults.isLast}
                 nextPage={this.props.searchResults.nextPage} />
-            <div className="row px-4 pt-2">
-              <span style={{cursor: 'pointer'}}  onClick={() => this.setState({localPage: Math.max(this.state.localPage - 1, 0)})}>
-                <span id="previous" className="col-2 badge badge-pill badge-primary" style={this.previous()}>&lt;&lt;previous</span>
+            <div className="row py-2 search-btns">
+              <span className="col-2" style={{cursor: 'pointer'}}  onClick={() => this.setState({localPage: Math.max(this.state.localPage - 1, 0)})}>
+                <span id="previous" className=" badge badge-pill badge-primary" style={this.previous()}><ArrowLeftCircle id="previousIcon" />Previous page</span>
               </span>
-              <span className="col"></span>
-              <span style={{cursor: 'pointer'}} onClick={() => this.setState({localPage: this.state.localPage + 1})}>
-                <span id="next" className="col-2 badge badge-pill badge-primary" style={this.next()}>next&gt;&gt;</span>
+              <span className="page-counter col text-center" style={{display: (this.state.localPage > 0) ? DISPLAY.INLINE:DISPLAY.NONE}} >Page: {this.state.localPage}</span>
+              <span className="col" style={{display: !(this.state.localPage > 0) ? DISPLAY.INLINE:DISPLAY.NONE}} ></span>
+              <span className="col-2" style={{cursor: 'pointer'}} onClick={() => this.setState({localPage: this.state.localPage + 1})}>
+                <span id="next" className="col-2 badge badge-pill badge-primary" style={this.next()}>Next page<ArrowRightCircle id="nextIcon" /></span>
               </span>
             </div>
           </div>
@@ -125,11 +137,11 @@ export class SearchBar extends Component {
 function RenderResults ({results, query, localPage, fetchSearchResults, isLast, nextPage}) {
   if(results.failureMessage) {
     return (
-      <li className="dropdown-item list-group-item">Failed: {results.failureMessage}</li>
+      <Failed retry={() => fetchSearchResults(query)} />
     );
   } else if(results.isLoading) {
     return (
-      <li className="dropdown-item list-group-item">Loading...</li>
+      <Loading />
     );
   } else if(results.animes.length > 0) {
 
@@ -141,18 +153,18 @@ function RenderResults ({results, query, localPage, fetchSearchResults, isLast, 
     return displayedResult.map(anime => (
       <li className="dropdown-item list-group-item" key={anime.url} >
         <Link to={`/anime/${anime.url}`} >
-          <div className="card" style={{maxHeight: '120px'}}>
-            <div className="row no-gutters">
-              <div className="col-md-4">
-                <img src={anime.thumbnail} className="card-img" alt={anime.title} height="120px" width="120px" />
+          <div className="row no-gutters">
+            <div className="col-1 my-auto p-2">
+              <img src={anime.thumbnail} alt={anime.title} width="50px" height="50px" />
+            </div>
+            <div className="col my-auto">
+              <div className="search-text">
+                <span className="search-title">{anime.title}</span>
+                <span className="search-detail">{`${anime.type} - ${anime.year}`}</span>
               </div>
-              <div className="col-md-8">
-                <div className="card-body">
-                  <h5 className="card-title">{anime.title}</h5>
-                  <p className="card-text">{`${anime.type} - ${anime.year}`}</p>
-                  <p className="card-text"><small className="text-muted">{anime.eps} eps</small></p>
-                </div>
-              </div>
+            </div>
+            <div className="col-1 my-auto">
+              <span className="eps">{anime.eps} eps</span>
             </div>
           </div>
         </Link>
@@ -160,7 +172,7 @@ function RenderResults ({results, query, localPage, fetchSearchResults, isLast, 
     ))
   } else {
     return (
-      <li className="dropdown-item list-group-item">Nothing yet...</li>
+      <span className="nothing">Enter Anime name ... </span>
     );
   }
 }

@@ -1,0 +1,92 @@
+.anime .card {
+  text-align: center;
+  border: none;
+}
+
+.anime .card-img-top {
+  text-align: center;
+  border-radius: 5px 5px 0px 0px;
+  padding:0px;
+}
+
+.anime .card-title, .anime .card-text {
+  padding:0px;
+  margin: 0;
+}
+
+.entity {
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px  rgba(88, 17, 98, 0.3);
+}
+
+.img-ent {
+  padding: 0px;
+}
+
+.entity .card {
+  position: relative;
+}
+
+.summary-ent {
+  padding: 0px;
+}
+
+.summary {
+  text-align: center;
+  display: inline;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 3px;
+  font-size: 24pt;
+  background-color: #881798;
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.summary + p {
+  padding: 10px;
+}
+
+.anime .badge-primary {
+  background-color: #881798;
+}
+
+.anime .episodes {
+  margin: 0;
+  padding: 0px;
+}
+
+.anime .episodes p {
+  background-color: #881798;
+  border-radius: 10px 10px 0px 0px;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 24pt;
+  margin: 20px 0px 0px 0px;
+}
+
+.table {
+  margin-top: 0;
+}
+
+.table thead {
+  background-color: #881798;
+  color: white;
+}
+
+.table thead th, .table td {
+  border: none;
+  text-align: center;
+}
+
+.table tbody tr a {
+  color: #881798;
+}
+
+.disabled {
+  color: #e0e0ee;
+}

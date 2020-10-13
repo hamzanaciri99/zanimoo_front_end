@@ -1,0 +1,29 @@
+.footer {
+  position: absolute;
+  bottom: -300px;
+  width: 100%;
+  height: 300px;
+  background-color: #212529;
+  padding: 100px;
+  color: #b3c2d1;
+  margin: 0;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #b3c2d1;
+  cursor: pointer;
+}
+
+.footer ul {
+  text-align: left;
+}
+
+.footer li {
+  padding: 10px 0px;
+}
+
+.footer li p {
+  display: inline;
+  padding-left: 10px;
+}

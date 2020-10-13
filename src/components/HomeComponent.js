@@ -6,6 +6,9 @@ import { fetchLastAdded } from '../redux/actions/lastAdded';
 import { fetchTrends } from '../redux/actions/trends';
 import { Link } from 'react-router-dom';
 import Loading from './LoadingComponent';
+import Failed from './FailedComponent';
+import '../stylesheets/Home.css';
+import { Activity, BarChart, Award, Clock } from 'react-feather';
 
 class Home extends React.Component {
 
@@ -23,35 +26,44 @@ class Home extends React.Component {
 
   render() {
     return(
-      <React.Fragment>
-        <h1>Recent episodes:</h1>
-        <RenderRecentEpisodes recents={this.props.recents} />
-        <hr />
-        <h1>Trending animes (24h):</h1>
-        <RenderExtras extra={this.props.trends} />
-        <hr />
-        <h1>All time popular:</h1>
-        <RenderExtras extra={this.props.popular} />
-        <hr />
-        <h1>Latest Anime Added:</h1>
-        <RenderExtras extra={this.props.lastAdded} />
-      </React.Fragment>
+      <div className="home container-fluid">
+        <div className="big-title">
+        <Activity className="icons rotate" />
+        <h1>Recent episodes</h1>
+        </div>
+        <RenderRecentEpisodes recents={this.props.recents} retry={this.props.fetchRecents} />
+        <div className="big-title">
+          <BarChart className="icons rotate" />
+          <h1>Trending animes (24h)</h1>
+        </div>
+        <RenderExtras extra={this.props.trends} retry={this.props.fetchTrends} />
+        <div className="big-title">
+          <Award className="icons rotate" />
+          <h1>All time popular</h1>
+        </div>
+        <RenderExtras extra={this.props.popular} retry={this.props.fetchPopular} />
+        <div className="big-title">
+          <Clock className="icons rotate" />
+          <h1>Latest Anime Added</h1>
+        </div>
+        <RenderExtras extra={this.props.lastAdded} retry={this.props.fetchLastAdded} />
+      </div>
     );
   }
 }
 
-function RenderRecentEpisodes({recents}) {
+function RenderRecentEpisodes({recents, retry}) {
   if(recents.isLoading) {
     return (
       <Loading />
     );
   } else if (recents.failureMessage) {
     return (
-      <h1>Failed: {recents.failureMessage}</h1>
+      <Failed retry={retry} />
     );
   } else {
     return (
-      <div className="row my-4">
+      <div className="episodes row my-4">
         {
           recents.episodes.map((episode, idx) => {
             return (
@@ -66,26 +78,26 @@ function RenderRecentEpisodes({recents}) {
 
 function RenderEpisode({episode}) {
   return (
-    <div className="card col-lg-2 col-md-3 m-2">
+    <div className="episode-card card col-lg-2 col-md-3 m-2">
       <Link to={`/episode/${episode.url}`}>
         <img className="card-img-top" src={episode.thumbnail} alt={episode.episodeNum} />
         <div className="card-body">
-          <h5 className="card-title">{episode.title.length > 6 ? `${episode.title.substr(0, 6)}...` : episode.title}</h5>
-          <h6 className="card-subtitle">{episode.episodeNum}</h6>
+          <p className="card-title">{episode.title}</p>
+          <small className="card-subtitle">{episode.episodeNum}</small>
         </div>
       </Link>
     </div>
   );
 }
 
-function RenderExtras({extra}) {
+function RenderExtras({extra, retry}) {
   if(extra.isLoading) {
     return (
       <Loading />
     );
   } else if (extra.failureMessage) {
     return (
-      <h1>Failed: {extra.failureMessage}</h1>
+      <Failed retry={retry} />
     );
   } else {
     return (
@@ -104,17 +116,17 @@ function RenderExtras({extra}) {
 
 function RenderAnime({anime}) {
   return (
-    <div className="card bg-light border-dark col-lg-2 col-md-3 m-2">
+    <div className="anime-card card bg-light border-dark col-lg-2 col-md-3 m-2">
       <Link to={`/anime/${anime.url}`}>
         <img className="card-img-top" src={anime.thumbnail} alt={anime.title} />
         <div className="card-body">
-          <h5 className="card-title">{anime.title}</h5>
-          <h6 className="card-subtitle">
+          <h6 className="card-title">{anime.title}</h6>
+          <small className="card-text">
             {anime.details}
             <span style = {{display: 'block'}}>
               {(anime.rating) ? anime.rating: ''}
             </span>
-          </h6>
+          </small>
         </div>
       </Link>
     </div>

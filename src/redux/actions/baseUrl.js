@@ -1,1 +1,1 @@
-export const baseUrl = 'http://localhost:3001/animeultima';
+export const baseUrl = 'http://192.168.1.108:3001/animeultima';

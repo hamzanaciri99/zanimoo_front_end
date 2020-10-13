@@ -10,7 +10,7 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <Header />
           <Switch>
             <Route exact path="/" component={Home} />
@@ -19,6 +19,7 @@ class Main extends Component {
           </Switch>
         <Footer />
       </div>
+      
     )
   }
 }
